@@ -45,7 +45,7 @@
     gap: 12px;
 }
 .container_location{
-    border: 1px solid;
+    border: 1px solid rgba(0, 0, 0, 0.367) ;
     border-radius: 12px;
 }
 .maps{

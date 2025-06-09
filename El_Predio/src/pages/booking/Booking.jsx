@@ -1,69 +1,10 @@
 import Court_Card from "../../components/court_card/Court_Card";
 import "../booking/Booking.css"
 import portada from "../../utils/images/portada.jpeg"
-import { FaWhatsapp , FaInstagram , FaPhone, FaLocationDot, FaRegClock } from "../../utils/icons/icons"
+import { FaWhatsapp , FaInstagram , FaLocationDot, FaRegClock } from "../../utils/icons/icons"
 import { useEffect, useState } from "react";
 
 const Booking = () => {
-    
-// const courts = [
-//       {
-//         id: 1,
-//         court: "Cancha 5B (F5)",
-//         duration: "60 min",
-//         price: 45000,
-//         description: "Cancha techada con pasto cintetico y caucho (más chica que la 5A)",
-//         category: "Techada"
-//       },
-//       {
-//         id: 2,
-//         court: "Cancha 5A (F5)",
-//         duration: "60 min",
-//         price: 45000,
-//         description: "Cancha techada con pasto cintetico y caucho",
-//         category: "Techada"
-//       },
-//       {
-//         id: 3,
-//         court: "Cancha 6C (F6)",
-//         duration: "60 min",
-//         price: 54000,
-//         description: "Cancha techada con pasto cintetico y caucho",
-//         category: "Techada"
-//       },
-//       {
-//         id: 4,
-//         court: "Cancha 6A (F6)",
-//         duration: "60 min",
-//         price: 54000,
-//         description: "Cancha techada con pasto cintetico y caucho",
-//         category: "Techada"
-//       },
-//       {
-//         id: 5,
-//         court: "Cancha 7T (F7)",
-//         duration: "60 min",
-//         price: 63000,
-//         description: "Cancha techada con pasto cintetico y caucho",
-//         category: "Techada"
-//       },
-//       {
-//         id: 6,
-//         court: "Cancha 7AL (F7)",
-//         duration: "60 min",
-//         price: 63000,
-//         description: "Cancha al aire libre con pasto cintetico y caucho",
-//         category: "Aire Libre"
-//       },
-//       {
-//         id: 7,
-//         court: "Cancha 8AL (F8)",
-//         duration: "60 min",
-//         price: 75000,
-//         description: "Cancha al aire libre con pasto cintetico y caucho",
-//         category: "Aire Libre"
-//       }
-//     ]
 
     useEffect(() => {
       fetch('https://localhost:7047/api/Court/Get')

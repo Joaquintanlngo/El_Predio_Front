@@ -1,0 +1,14 @@
+
+.footer_container {
+  background-color: gray;
+  font-weight: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+}
+
+.footer_container h3 {
+  font-weight: 400;
+  font-size: 15px;
+}
