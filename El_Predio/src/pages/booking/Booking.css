@@ -3,9 +3,9 @@
     margin: 0;
     padding: 0;
 }
-.container_main{
+/* .container_main{
 
-}
+} */
 .profile{
     display: flex;
     justify-content: center;
@@ -56,12 +56,24 @@
 .div_container_description{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     height: 50%;
     gap: 16px;
     padding: 8px;
 }
 
+.div_container_description p{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cointainer_icons{
+    display: flex;
+    padding-left: 16px;
+    gap: 16px;
+    font-size: 32px;
+}
 
 
 
@@ -86,6 +98,7 @@
     justify-content: space-between;
     padding: 16px;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 .div_card_court{
@@ -94,3 +107,6 @@
     gap: 16px;
 }
 
+.div_card_court_none{
+    display: none;
+}

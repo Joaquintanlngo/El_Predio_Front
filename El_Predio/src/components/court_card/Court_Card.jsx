@@ -8,7 +8,7 @@ const Court_Card = (court) => {
             <img className="image" src={aireLibre} alt="" />
             <div className="container_court">
                 <div className="court">
-                    <h3 className="service">{court.court}</h3>
+                    <h3 className="service">{court.name}</h3>
                     <p className="duration">{court.duration}</p>
                     <h3 className="price">${court.price}</h3>
                     <p className="description">{court.description}</p>
