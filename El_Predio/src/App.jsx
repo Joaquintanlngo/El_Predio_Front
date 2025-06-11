@@ -10,8 +10,8 @@ const App = () => {
 
   return (
     <>
-     <Router>
-            <AppRoutes />
+      <Router>
+        <AppRoutes />
       </Router>
     </>
   )

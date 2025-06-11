@@ -1,0 +1,76 @@
+.booking_container { 
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-right: 20px;
+  margin-top: 4px;
+}
+
+.table_container {
+  padding-bottom: 50px;
+}
+
+.table_booking {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: -1px 7px 5px -3px rgba(0, 0, 0, 0.2);
+  width: 1200px;
+  border-collapse: collapse;
+  font-weight: bold;
+}
+
+.delete_icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+.delete_icon:hover {
+  color: red;
+}
+
+
+.dots::after {
+  content: "";
+  display: inline-block;
+  animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0% {
+    content: "";
+  }
+  33% {
+    content: ".";
+  }
+  66% {
+    content: "..";
+  }
+  100% {
+    content: "...";
+  }
+}
+
+td {
+  text-align: center;
+  padding: 20px;
+  border-top: 1px solid lightgrey;
+}
+
+th {
+  padding: 15px;
+}
+
+tr:last-child {
+  border-bottom: 1px solid lightgrey;
+}
+
+tfoot td {
+  padding: 20px;
+}
+
+.weight_normal{
+  font-weight: normal;
+}
+

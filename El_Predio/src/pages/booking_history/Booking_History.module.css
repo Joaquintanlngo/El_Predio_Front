@@ -1,0 +1,73 @@
+.title_container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.grey_title {
+    color: var(--gray);
+}
+
+
+.container_filter{
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 auto;
+    width: 1200px;
+    padding-top: 16px;
+    gap: 16px;
+}
+
+.container_select{
+    display: flex;
+    width: auto;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.select{
+  width: 100px;
+  background-color: #0a3013;
+  border-radius: 8px;
+  color: white;
+  padding: 2px;
+  padding-left: 4px;
+  font-weight: bold;
+
+}
+
+.input{
+  width: auto;
+  background-color: #0a3013;
+  border-radius: 8px;
+  color: white;
+  padding: 2px;
+  padding-left: 4px;
+  font-weight: bold;
+
+}
+
+.inputDate {
+  width: auto;
+  background-color: #0a3013;
+  border-radius: 8px;
+  color: white;
+  padding: 2px;
+  padding-left: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.inputDate::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Invierte los colores: negro → blanco */
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+
+
