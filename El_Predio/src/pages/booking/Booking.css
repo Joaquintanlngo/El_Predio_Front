@@ -81,6 +81,7 @@
 
 
 .reserve{
+    background-color: #f3f6f2             ;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -3,6 +3,7 @@ import "../booking/Booking.css"
 import portada from "../../utils/images/portada.jpeg"
 import { FaWhatsapp , FaInstagram , FaLocationDot, FaRegClock } from "../../utils/icons/icons"
 import { useEffect, useState } from "react";
+import Available_Times from "../../components/available_times/Available_Times";
 
 const Booking = () => {
 
@@ -78,25 +79,7 @@ const Booking = () => {
                     </div>
                 </section>
                 <section className="reserve">
-                    <div className="canchas" onClick={handleChange}>
-                        <h3>Canchas Techadas</h3>
-                        <h3>-</h3>
-                    </div>
-
-                    <div className={list ? "div_card_court" : "div_card_court_none"}>
-                    {courts.filter((court) => court.category == "Techada").map((court) => (
-                    <Court_Card key={court.id} court={court} />
-                    ))}
-                    </div>
-                    <div className="canchas" onClick={handleChange2}>
-                        <h3>Canchas Aire Libre</h3>
-                        <h3>-</h3>
-                    </div>
-                    <div className={list2 ? "div_card_court" : "div_card_court_none"}>
-                    {courts.filter((court) => court.category == "Aire Libre").map((court) => (
-                    <Court_Card key={court.id} court={court} />
-                    ))}
-                    </div>
+                    <Available_Times></Available_Times>
                 </section>
             </div>
         </>

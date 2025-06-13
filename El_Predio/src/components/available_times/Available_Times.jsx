@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './Avaliable_Times.module.css';
+import Court_Card from '../court_card/Court_Card';
 
-const days = Array.from({ length: 14 }, (_, i) => {
+const days = Array.from({ length: 30 }, (_, i) => {
   const date = new Date();
   date.setDate(date.getDate() + i);
   const weekday = date.toLocaleDateString('es-AR', { weekday: 'short' });
@@ -15,7 +16,7 @@ const days = Array.from({ length: 14 }, (_, i) => {
 
 const afternoonSlots = ['18:00', '19:00', '20:00', '21:00', '22:00'];
 
-export default function ReservationSchedule() {
+export default function Available_Times() {
   const [courts, setCourts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(days[0].fullDate);
   const [selectedTime, setSelectedTime] = useState('');
@@ -24,6 +25,7 @@ export default function ReservationSchedule() {
   const fetchCourts = async () => {
     try {
       const res = await fetch('https://localhost:7047/api/Court/Get');
+      if (!res.ok) throw new Error('Error al obtener canchas');
       const data = await res.json();
       setCourts(data);
     } catch (error) {
@@ -35,7 +37,16 @@ export default function ReservationSchedule() {
     try {
       const newReservations = {};
       for (const court of courts) {
-        const res = await fetch(`https://localhost:7047/api/Reservation/GetAllReservationForCourtOfDay/Filter-For-Court-Of-Today?courtId=${court.id}&date=${selectedDate}`);
+        const url = `https://localhost:7047/api/Reservation/GetAllReservationForCourtOfDay/Filter-For-Court-Of-Today?courtId=${court.id}&date=${selectedDate}`;
+        const res = await fetch(url);
+
+        const contentType = res.headers.get("content-type");
+        if (!res.ok || !contentType.includes("application/json")) {
+          const errorText = await res.text();
+          console.error(`Error (${res.status}) para la cancha ${court.id}:`, errorText);
+          continue;
+        }
+
         const data = await res.json();
         newReservations[court.id] = data.map(r => r.time?.slice(0, 5));
       }
@@ -55,12 +66,15 @@ export default function ReservationSchedule() {
     }
   }, [selectedDate, courts]);
 
-  const handleSubmit = async (courtId) => {
+  const handleSubmit = async () => {
+    if (!selectedTime) return;
+    const [courtId, time] = selectedTime.split('-');
+
     const payload = {
-      courtId: courtId,
+      courtId: parseInt(courtId),
       clientId: 2,
       date: selectedDate,
-      time: selectedTime
+      time: time
     };
 
     try {
@@ -83,57 +97,79 @@ export default function ReservationSchedule() {
 
   return (
     <div className={styles.reservation_container}>
-      <h2 className={styles.month_title}>Junio</h2>
+      <div className={styles.reservation}>
 
-      <div className={styles.days_scroll}>
-        {days.map((d) => (
-          <div
-            key={d.fullDate}
-            className={`${styles.day_item} ${selectedDate === d.fullDate ? styles.active : ''}`}
-            onClick={() => {
-              setSelectedDate(d.fullDate);
-              setSelectedTime('');
-            }}
-          >
-            <span className={styles.day_weekday}>{d.weekday}</span>
-            <span className={styles.day_number}>{d.day}</span>
-          </div>
-        ))}
-      </div>
+        <h2 className={styles.month_title}>Junio</h2>
 
-      {courts.map((court) => (
-        <div key={court.id} className={styles.section}>
-          <h3 className={styles.section_title}>{court.name}</h3>
-          <div className={styles.slots_container}>
-            {afternoonSlots.map((slot) => {
+        <div className={styles.days_scroll}>
+          {days.map((d) => (
+            <div
+              key={d.fullDate}
+              className={`${styles.day_item} ${selectedDate === d.fullDate ? styles.active : ''}`}
+              onClick={() => {
+                setSelectedDate(d.fullDate);
+                setSelectedTime('');
+              }}
+            >
+              <span className={styles.day_weekday}>{d.weekday}</span>
+              <span className={styles.day_number}>{d.day}</span>
+            </div>
+          ))}
+        </div>
+
+        <table className={styles.schedule_table}>
+          <thead>
+            <tr>
+              <th>Fútbol</th>
+              {afternoonSlots.map((slot) => (
+                <th  key={slot}>{slot}hs</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {courts.map((court) => {
               const reservedTimes = reservations[court.id] || [];
-              const isReserved = reservedTimes.includes(slot);
               return (
-                <button
-                  key={slot}
-                  onClick={() => setSelectedTime(slot)}
-                  disabled={isReserved}
-                  className={`
-                    ${isReserved ? styles.slot_button_disable : styles.slot_button} 
-                    ${selectedTime === slot ? styles.selected : ''}`}
-                >
-                  {slot} hs
-                </button>
+                <tr key={court.id}>
+                  <td ><strong>{`Cancha ${court.name} (F${court.name.slice(0,1)})`}</strong></td>
+                  {afternoonSlots.map((slot) => {
+                    const isReserved = reservedTimes.includes(slot);
+                    const isSelected = selectedTime === `${court.id}-${slot}`;
+                    return (
+                      <td key={slot}>
+                        <button
+                          onClick={() => setSelectedTime(`${court.id}-${slot}`)}
+                          disabled={isReserved}
+                          className={`
+                            ${isReserved ? styles.slot_button_disable : styles.slot_button}
+                            ${isSelected ? styles.selected : ''}
+                          `}
+                        >
+                          {slot}
+                        </button>
+                      </td>
+                    );
+                  })}
+                </tr>
               );
             })}
-            {afternoonSlots.length === 0 && (
-              <p className={styles.no_slots}>No hay horarios disponibles ese día.</p>
-            )}
-          </div>
-          {selectedTime && (
-            <div className={styles.selection_info}>
-              <button className={styles.enviar} onClick={() => handleSubmit(court.id)}>
-                Reservar en {court.name}
-              </button>
-            </div>
-          )}
+          </tbody>
+        </table>
+
+      </div>
+        <Court_Card 
+        selectedTime={selectedTime}
+        handleSubmit={handleSubmit}
+        />
+
+      {/* {selectedTime && (
+        <div className={styles.reserve_button_wrapper}>
+          <button className={styles.enviar} onClick={handleSubmit}>
+            Reservar
+          </button>
         </div>
-      ))}
+      )} */}
     </div>
+    
   );
 }
