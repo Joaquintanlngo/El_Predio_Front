@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../components/layout/Layout";
-import Booking from "../pages/booking/booking";
+import Booking from "../pages/booking/Booking";
 import Booking_History from "../pages/booking_history/Booking_History";
 import Available_Times from "../components/available_times/Available_Times";
 import Protected from "../services/protected/Protected";
