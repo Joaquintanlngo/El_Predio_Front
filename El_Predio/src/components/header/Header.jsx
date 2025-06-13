@@ -1,7 +1,9 @@
 import "../header/header.css"
 import portada from "../../utils/images/portada.jpeg"
+import { useAuth } from "../../services/authcontext/AuthContext";
 
-const Header = ({ isAuthenticated, onLoginClick, onLogoutClick }) => {
+const Header = ({ onLoginClick }) => {
+    const { isAuthenticated, logout } = useAuth();
 
    return (
     <div className="cointainer-header">
@@ -11,7 +13,7 @@ const Header = ({ isAuthenticated, onLoginClick, onLogoutClick }) => {
       </div>
       <div className="container-login">
         {isAuthenticated
-          ? <button onClick={onLogoutClick}>Cerrar Sesión</button>
+          ? <button onClick={logout}>Cerrar Sesión</button>
           : <button onClick={onLoginClick}>Iniciar Sesión</button>
         }
       </div>
