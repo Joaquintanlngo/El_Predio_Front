@@ -85,13 +85,7 @@ const Booking = () => {
 
                     <div className={list ? "div_card_court" : "div_card_court_none"}>
                     {courts.filter((court) => court.category == "Techada").map((court) => (
-                    <Court_Card
-                    key={court.id}
-                    name={court.name}
-                    duration={court.duration}
-                    price={court.price}
-                    description={court.description}
-                    />
+                    <Court_Card key={court.id} court={court} />
                     ))}
                     </div>
                     <div className="canchas" onClick={handleChange2}>
@@ -100,13 +94,7 @@ const Booking = () => {
                     </div>
                     <div className={list2 ? "div_card_court" : "div_card_court_none"}>
                     {courts.filter((court) => court.category == "Aire Libre").map((court) => (
-                    <Court_Card
-                    key={court.id}
-                    name={court.name}
-                    duration={court.duration}
-                    price={court.price}
-                    description={court.description}
-                    />
+                    <Court_Card key={court.id} court={court} />
                     ))}
                     </div>
                 </section>
