@@ -3,15 +3,19 @@ import aireLibre from "../../utils/images/aireLibre.jpeg"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 
-const Court_Card = ({ selectedTime, handleSubmit }) => {
+const Court_Card = ({ selectedTime, selectedDay }) => {
     const navigate = useNavigate();
     const [court, setCourt] = useState([])
 
     if (!court) return null; // protección por si todavía no está cargado
 
     const HandleSubmit = () => {
-        navigate("/times", { state: { court } });
-    };
+        navigate("/pay", { state: {
+                                    court,
+                                    hour: time,
+                                    day: selectedDay
+                                } });
+        };
 
     const [courtId, time] = selectedTime.split('-');
     console.log(courtId)
@@ -42,7 +46,7 @@ const Court_Card = ({ selectedTime, handleSubmit }) => {
                 </div>
         
                 <div className="reserve_button_wrapper">
-                    <button disabled={selectedTime === ""} className="enviar" onClick={handleSubmit}>
+                    <button disabled={selectedTime === ""} className="enviar" onClick={HandleSubmit}>
                     Reservar
                     </button>
                 </div>

@@ -1,0 +1,140 @@
+.reservation-confirm-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e2e3a;
+}
+
+.subtitle {
+  color: #5c5c6c;
+  margin-bottom: 1.5rem;
+}
+
+.reservation-content {
+  display: flex;
+  gap: 2rem;
+}
+
+.left-panel, .right-panel {
+  flex: 1;
+}
+
+.summary-box {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.place-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.address {
+  color: gray;
+  margin-bottom: 1rem;
+}
+
+.place-image {
+  width: 120px;
+  border-radius: 5px;
+  margin: 1rem 0;
+}
+
+.details {
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.5rem 0;
+}
+
+.detail-item .small {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.service-fee .value {
+  color: green;
+  font-weight: bold;
+}
+
+.benefit-box {
+  background: #e6f9ec;
+  text-align: center;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.benefit-box .green {
+  color: #0c9f53;
+  font-weight: bold;
+}
+
+.form-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.input.error {
+  border: 1.5px solid red;
+}
+
+.form-row {
+  margin: 1rem 0;
+}
+
+.phone-prefix {
+  background: #f0f0f0;
+  padding: 0.7rem;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  margin-right: -5px;
+}
+
+.payment-info {
+  background: #ffe0ba;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.confirm-button {
+  background: #00aa44;
+  color: white;
+  font-weight: bold;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1.5rem;
+}
+
+.confirm-button:hover {
+  background: #008c38;
+}

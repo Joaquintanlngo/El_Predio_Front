@@ -66,34 +66,34 @@ export default function Available_Times() {
     }
   }, [selectedDate, courts]);
 
-  const handleSubmit = async () => {
-    if (!selectedTime) return;
-    const [courtId, time] = selectedTime.split('-');
+  // const handleSubmit = async () => {
+  //   if (!selectedTime) return;
+  //   const [courtId, time] = selectedTime.split('-');
 
-    const payload = {
-      courtId: parseInt(courtId),
-      clientId: 2,
-      date: selectedDate,
-      time: time
-    };
+  //   const payload = {
+  //     courtId: parseInt(courtId),
+  //     clientId: 2,
+  //     date: selectedDate,
+  //     time: time
+  //   };
 
-    try {
-      const response = await fetch('https://localhost:7047/api/Reservation/Create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+  //   try {
+  //     const response = await fetch('https://localhost:7047/api/Reservation/Create', {
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(payload)
+  //     });
 
-      if (!response.ok) throw new Error('Sucedió un error inesperado');
-      await response.json();
-      alert('Reserva realizada correctamente ✅');
-      setSelectedTime('');
-      await fetchReservationsForAllCourts();
-    } catch (err) {
-      console.log(err.message);
-      alert('Error al realizar la reserva ❌');
-    }
-  };
+  //     if (!response.ok) throw new Error('Sucedió un error inesperado');
+  //     await response.json();
+  //     alert('Reserva realizada correctamente ✅');
+  //     setSelectedTime('');
+  //     await fetchReservationsForAllCourts();
+  //   } catch (err) {
+  //     console.log(err.message);
+  //     alert('Error al realizar la reserva ❌');
+  //   }
+  // };
 
   return (
     <div className={styles.reservation_container}>
@@ -159,7 +159,7 @@ export default function Available_Times() {
       </div>
         <Court_Card 
         selectedTime={selectedTime}
-        handleSubmit={handleSubmit}
+        selectedDay={selectedDate}
         />
 
       {/* {selectedTime && (
