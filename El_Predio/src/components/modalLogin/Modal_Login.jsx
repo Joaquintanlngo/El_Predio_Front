@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './LoginModal.module.css';
 
+
 const LoginModal = ({ isOpen, onClose, onSubmit }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,23 +18,31 @@ const LoginModal = ({ isOpen, onClose, onSubmit }) => {
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <button className={styles.closeBtn} onClick={onClose}>×</button>
-        <h2>Iniciar sesión</h2>
+        <h1 className={styles.welcome}>Bienvenido a El Predio</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label>Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder='Email'
+              />
+          </div>
 
-          <label>Contraseña</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div>
+            <label>Contraseña</label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder='Contraseña'
+              />
+            <a href="">Has olvidado tu contraseña?</a>
+          </div>
+
 
           <button type="submit">Ingresar</button>
         </form>

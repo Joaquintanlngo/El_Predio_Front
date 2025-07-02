@@ -7,26 +7,6 @@ import Available_Times from "../../components/available_times/Available_Times";
 
 const Booking = () => {
 
-    useEffect(() => {
-      fetch('https://localhost:7047/api/Court/Get')
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Error en la respuesta de la API');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          
-          setCourts(data);
-          // Actualizá tu estado o hacé lo que necesites con los datos
-        })
-        .catch((error) => {
-          console.error('Hubo un problema con la petición:', error);
-        });
-    }, []);
-
-
-    const [courts, setCourts] = useState([]);
     const [list, setList] = useState(true);
     const [list2, setList2] = useState(true);
 

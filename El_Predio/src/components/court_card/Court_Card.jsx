@@ -40,8 +40,8 @@ const Court_Card = ({ selectedTime, selectedDay }) => {
             <div className="container_court">
                 <div className="court">
                     <h3 className="service">Cancha {selectedTime ? court.name : "-|-"} (F{court?.name?.slice(0,1) ?? "-"}) a las {selectedTime ? time : "--:--"} </h3>
-                    <p className="duration">{selectedTime ? court.duration : "-- ---"}</p>
-                    <h3 className="price">${selectedTime ? court.price : " --.----"}</h3>
+                    <p className="duration">{selectedTime ? court.duration : "00 min"}</p>
+                    <h3 className="price">${selectedTime ? court.price : " 0,00"}</h3>
                     <p className="description">{selectedTime ? court.description : "------ ----- ----- ----- ----- ----- ----- ----- -----"}</p>
                 </div>
         
