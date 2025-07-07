@@ -5,65 +5,79 @@ import "../layout/Layout.css"
 import LoginModal from "../modalLogin/Modal_Login";
 import { useState } from "react";
 import { useAuth } from "../../services/authcontext/AuthContext";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import Sidebar from "../sidebar/Sidebar";
 
 const Layout = () => {
   // const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
+  const [showSidebar, setShowSidebar] = useState(false);
+
   const [showLogin, setShowLogin] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (credentials) => {
-  const payload = {
-    email: credentials.email,
-    password: credentials.password
-  };
+    const payload = {
+      email: credentials.email,
+      password: credentials.password
+    };
 
-  try {
-    const response = await fetch('https://localhost:7047/api/Auth/Login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    });
+    try {
+      const response = await fetch('https://localhost:7047/api/Auth/Login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
 
 
-    if (!response.ok) throw new Error("Sucedió un error inesperado");
-    const result = await response.text();
+      if (!response.ok) throw new Error("Sucedió un error inesperado");
+      const result = await response.text();
 
-    // localStorage.setItem("token", result);
-    login(result); // 👈 actualiza el contexto
+      // localStorage.setItem("token", result);
+      login(result); // 👈 actualiza el contexto
 
-    const decoded = jwtDecode(result);
-    const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      const decoded = jwtDecode(result);
+      const role = decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
-    // 🔁 Redirecciona según el rol
-    if (role === "SysAdmin") {
-      navigate("/reserv");
-    } else if (role === "Client") {
-      navigate("/");
+      // 🔁 Redirecciona según el rol
+      if (role === "SysAdmin") {
+        navigate("/reserv");
+      } else if (role === "Client") {
+        navigate("/");
+      }
+
+      setShowLogin(false);
+    } catch (err) {
+      console.log(err.message);
     }
 
-    setShowLogin(false);
-  } catch (err) {
-    console.log(err.message);
-  }
-
-};
+  };
 
 
 
-    return (
+  return (
+
     <div className="layout_container">
       <header className="header_container">
-        <Header onLoginClick={() => setShowLogin(true)} />
+        <Header onProfileClick={() => setShowSidebar(true)}/>
       </header>
       <main className="main_container">
-        <Outlet/>
+        <Outlet />
       </main>
-      <footer className="footer_container_layout">
-        <Footer/>
+      {showSidebar && (
+        <div className="fixed inset-0 z-50 flex">
+          <Sidebar isOpen={showSidebar} onClose={() => setShowSidebar(false)} />
+          {/* Fondo oscuro para cerrar el sidebar al hacer clic afuera */}
+          <div
+            className="fixed inset-0 bg-black/40"
+            onClick={() => setShowSidebar(false)}
+          />
+        </div>
+      )}
+      <footer className="footer_container_layout ">
+        <Footer />
       </footer>
       <LoginModal
         isOpen={showLogin}
@@ -71,7 +85,7 @@ const Layout = () => {
         onSubmit={handleLogin}
       />
     </div>
-    )
+  )
 }
 
 export default Layout;

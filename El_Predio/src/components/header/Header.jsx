@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoPersonCircleOutline } from "../../utils/icons/icons"
 
-const Header = ({ onLoginClick }) => {
+const Header = ({ onProfileClick }) => {
     const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate()
 
@@ -56,7 +56,7 @@ const Header = ({ onLoginClick }) => {
               <button  onClick={() => {logout()}} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1990e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
                 <span className="truncate">Cerrar sesión</span>
               </button>
-              <IoPersonCircleOutline className="inline-block size-8 rounded-full ring-2 ring-white cursor-pointer"/>
+              <IoPersonCircleOutline className="inline-block size-8 rounded-full ring-2 ring-white cursor-pointer" onClick={onProfileClick}/>
             </div>
             }
           </div>
