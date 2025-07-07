@@ -3,6 +3,7 @@ import portada from "../../utils/images/portada.jpeg"
 import { useAuth } from "../../services/authcontext/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { IoPersonCircleOutline } from "../../utils/icons/icons"
 
 const Header = ({ onLoginClick }) => {
     const { isAuthenticated, logout } = useAuth();
@@ -50,9 +51,13 @@ const Header = ({ onLoginClick }) => {
                 <span className="truncate" >Registrarse</span>
               </button>
             </div>
-            : <button  onClick={() => {logout()}} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1990e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
+            : 
+            <div className="flex gap-4 items-center">
+              <button  onClick={() => {logout()}} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1990e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
                 <span className="truncate">Cerrar sesión</span>
               </button>
+              <IoPersonCircleOutline className="inline-block size-8 rounded-full ring-2 ring-white cursor-pointer"/>
+            </div>
             }
           </div>
         </header>

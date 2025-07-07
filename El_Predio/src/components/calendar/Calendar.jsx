@@ -3,11 +3,8 @@ import { es } from 'date-fns/locale';
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
-const Calendar = () => {
+const Calendar = ({selected, onSelect}) => {
 
-  const todayString = new Date();
-  
-  const [selected, setSelected] = useState(todayString);
   const [month, setMonth] = useState();
 
   const handleMonthChange = (newMonth) => {
@@ -24,7 +21,7 @@ const Calendar = () => {
         <DayPicker
             mode="single"
             selected={selected}
-            onSelect={setSelected}
+            onSelect={onSelect}
             month={month}
             onMonthChange={handleMonthChange}
             showOutsideDays
@@ -46,6 +43,7 @@ const Calendar = () => {
                 [&_.rdp-day]:!w-8 [&_.rdp-day]:!h-8 [&_.rdp-day]:text-center [&_.rdp-day]:text-sm [&_.rdp-day]:p-0
                 [&_.rdp-day_selected]:bg-blue-500 [&_.rdp-day_selected]:text-white [&_.rdp-day_selected]:rounded-full
                 [&_.rdp-day_today]:font-normal
+                [&_.rdp-day:hover]:bg-blue-100 [&_.rdp-day:hover]:rounded-full [&_.rdp-day:hover]:text-black
             "
             modifiersClassNames={{
                 selected: "bg-blue-500 text-white rounded-full",

@@ -63,7 +63,7 @@ const TableReserv = ({typeFilter, value}) => {
                 Cancha {booking.court} (F{booking.court.slice(0,1)})
             </td>
             <td className={styles.weight_normal}>
-              {booking.client.fullName}
+              {booking.clientName}
             </td>
             <td className={styles.weight_normal}>
               {formatDate(booking.date)}
@@ -72,7 +72,7 @@ const TableReserv = ({typeFilter, value}) => {
                 {booking.time.slice(0,5)}hs
             </td>
             <td className={styles.weight_normal}>
-                {booking.client.phoneNumber}
+                {booking.clientPhone}
             </td>
             <td>
               <FaTrashAlt

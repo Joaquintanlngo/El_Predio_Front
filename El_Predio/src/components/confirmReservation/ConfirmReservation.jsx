@@ -1,30 +1,15 @@
 import React, { useState } from 'react';
 import '../reservationConfirm/Reservation_Confirm.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import 'react-phone-input-2/lib/style.css';
 import PhoneInput from 'react-phone-input-2';
+import AireLibre from '../../utils/images/aireLibre.jpeg'
+import axios from "axios";
 
  const ConfirmReservation = () => {
-
-    const court = {
-    id: 1,
-    name: "5A",
-    duration: "60min",
-    price: 1000,
-    description: "Cancha techada",
-    isAvailable: true,
-    category: "Fútbol 5",
-    };
-
-    
-
-    const hour = "20:00";
-    const day = "2025-07-01";
-
-
-
-    // const location = useLocation();
-    // const {court, hour, day} = location.state || {};
+    const navigate = useNavigate()
+    const location = useLocation();
+    const {field, hour, day} = location.state || {};
     const [phone, setPhone] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -32,46 +17,65 @@ import PhoneInput from 'react-phone-input-2';
     const [paymentData, setPaymentData] = useState(null);
 
     const handleSubmit = async () => {
-        if (!name || !email) {
-            alert('Por favor, completa todos los campos requeridos');
-            return;
-        }
+      try {
+        const response = await axios.post("https://localhost:7047/api/Reservation/Create", {
+            date: day,
+            time: hour,
+            clientId: 4,
+            courtId: field.id
+        });
 
-        setLoading(true);
+        if (response){
+          alert("Reserva creada con exito!")
+          navigate("/")
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Email o contraseña incorrectos.");
+      }
         
-        try {
-            // 1. Llamada a CreatePaymentIntent
-            const response = await fetch('https://1351-190-192-58-120.ngrok-free.app/api/MpSdk/CreatePaymentIntent', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  Name: name,
-                  Email: email,
-                  Price: 1, // Solo el 30% como anticipo
-                  CourtName: court.name, 
-                  Date: day,
-                  Time: hour,
-                  CourtId: court.id,
-                  ClientId: 2,
-                  SuccessUrl: window.location.origin + '/payment-success'
-                })
-            });
-
-            const data = await response.json();
-            localStorage.setItem("url", data);
-            setPaymentData(data);
-
-            // 2. Redirigir a Mercado Pago
-            window.location.href = data.url;
-        } catch (error) {
-            console.error('Error al crear el pago:', error);
-            alert('Hubo un error al procesar el pago. Por favor, intenta nuevamente.');
-        } finally {
-            setLoading(false);
-        }
     };
+    // const handleSubmit = async () => {
+    //     if (!name || !email) {
+    //         alert('Por favor, completa todos los campos requeridos');
+    //         return;
+    //     }
+
+    //     setLoading(true);
+        
+    //     try {
+    //         // 1. Llamada a CreatePaymentIntent
+    //         const response = await fetch('https://1351-190-192-58-120.ngrok-free.app/api/MpSdk/CreatePaymentIntent', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({
+    //               Name: name,
+    //               Email: email,
+    //               Price: 1, // Solo el 30% como anticipo
+    //               CourtName: field.name, 
+    //               Date: day,
+    //               Time: hour,
+    //               CourtId: field.id,
+    //               ClientId: 2,
+    //               SuccessUrl: window.location.origin + '/payment-success'
+    //             })
+    //         });
+
+    //         const data = await response.json();
+    //         localStorage.setItem("url", data);
+    //         setPaymentData(data);
+
+    //         // 2. Redirigir a Mercado Pago
+    //         window.location.href = data.url;
+    //     } catch (error) {
+    //         console.error('Error al crear el pago:', error);
+    //         alert('Hubo un error al procesar el pago. Por favor, intenta nuevamente.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     const parseFechaLocal = (fechaStr) => {
         const [year, month, day] = fechaStr.split('-');
@@ -106,11 +110,11 @@ import PhoneInput from 'react-phone-input-2';
         <div className="left-panel">
           <div className="summary-box">
             <div className="field">
-              <span className="label">Fútbol {court.name.slice(0,1)}</span>
+              <span className="label">Fútbol {field.name.slice(0,1)}</span>
             </div>
             <h2 className="place-name">El Predio</h2>
             <p className="address">Av. Ovidio Lagos 4170, Rosario</p>
-            <img src="/elovalo.png" alt="El Predio" className="place-image" />
+            <img src={AireLibre} alt="El Predio" className="w-[100%] h-[100px] rounded-[5px] my-4 object-cover" />
             <div className="details">
               <div className="detail-item">
                 <span className="icon">📅 Fecha</span>
@@ -122,14 +126,14 @@ import PhoneInput from 'react-phone-input-2';
               </div>
               <div className="detail-item">
                 <span className="icon">🏟</span>
-                <span className="text">Cancha {court.name} - Fútbol {court.name.slice(0,1)}</span>
+                <span className="text">Cancha {field.name} - Fútbol {field.name.slice(0,1)}</span>
               </div>
               <div className="detail-item">
-                <span className="text small">{court.description}</span>
+                <span className="text small">{field.description}</span>
               </div>
               <div className="detail-item">
                 <span className="label">Precio</span>
-                <span className="value">$ {court.price}</span>
+                <span className="value">$ {field.price}</span>
               </div>
               <div className="detail-item service-fee">
                 <span className="label">Tasa de servicio</span>
@@ -137,7 +141,7 @@ import PhoneInput from 'react-phone-input-2';
               </div>
               <div className="detail-item">
                 <span className="label">Anticipo / Adelanto:</span>
-                <span className="value">$ {court.price * 0.3}</span>
+                <span className="value">$ {field.price * 0.3}</span>
               </div>
               <div className="benefit-box !bg-blue-100">
                 <p>Beneficio ofrecido por <strong>TIFOX</strong></p>
