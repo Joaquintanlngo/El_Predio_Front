@@ -1,8 +1,38 @@
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
+import { useState } from "react";
+import { useAuth } from "../../services/authcontext/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 const LoginPage = () => {
   const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { login } = useAuth();
+
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("https://localhost:7047/api/Auth/Login", {
+        email,
+        password,
+      });
+
+      const token = response.data;
+      const decoded = jwtDecode(token);
+      const roleClaim = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+      const role = decoded[roleClaim];
+
+      login(token);
+      
+      {role === "Client" && navigate("/")}
+      {role === "SysAdmin" && navigate("/reserv")}
+    } catch (err) {
+      console.error(err);
+      setError("Email o contraseña incorrectos.");
+    }
+  };
 
     return (
         <div
@@ -20,9 +50,11 @@ const LoginPage = () => {
               <label className="flex flex-col min-w-40 flex-1">
                 <p className="text-[#0e151b] text-base font-medium leading-normal pb-2">Email</p>
                 <input
+                  type="email"
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => {setEmail(e.target.value)}}
                   className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0e151b] focus:outline-0 focus:ring-0 border-none bg-[#e7eef3] focus:border-none h-14 placeholder:text-[#4e7997] p-4 text-base font-normal leading-normal"
-                  defaultValue=""
                 />
               </label>
             </div>
@@ -31,13 +63,20 @@ const LoginPage = () => {
               <label className="flex flex-col min-w-40 flex-1">
                 <p className="text-[#0e151b] text-base font-medium leading-normal pb-2">Contraseña</p>
                 <input
-                  placeholder="Contraseña"
                   type="password"
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => {setPassword(e.target.value)}}
                   className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0e151b] focus:outline-0 focus:ring-0 border-none bg-[#e7eef3] focus:border-none h-14 placeholder:text-[#4e7997] p-4 text-base font-normal leading-normal"
-                  defaultValue=""
                 />
               </label>
             </div>
+
+            {error && (
+              <div className="text-red-500 text-sm font-medium px-4">
+                {error}
+              </div>
+            )}
 
             <div className="text-[#4e7997] text-sm font-normal leading-normal pb-3 pt-1 px-4 underline">
               <p className="max-w-[200px] cursor-pointer">
@@ -46,7 +85,10 @@ const LoginPage = () => {
             </div>
 
             <div className="flex px-4 py-3">
-              <button className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-[#1990e5] text-slate-50 text-base font-bold leading-normal tracking-[0.015em]">
+              <button 
+                onClick={handleLogin}
+                className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 flex-1 bg-[#1990e5] text-slate-50 text-base font-bold leading-normal tracking-[0.015em]"
+              >
                 <span className="truncate">Iniciar sesión</span>
               </button>
             </div>

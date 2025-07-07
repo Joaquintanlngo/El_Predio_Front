@@ -2,10 +2,17 @@ import "../header/header.css"
 import portada from "../../utils/images/portada.jpeg"
 import { useAuth } from "../../services/authcontext/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = ({ onLoginClick }) => {
     const { isAuthenticated, logout } = useAuth();
     const navigate = useNavigate()
+
+    // const [isToken, setIsToken] = useState(localStorage.getItem("token"))
+
+    // useEffect(() => {
+    //   setIsToken(localStorage.getItem("token"))
+    // },[localStorage.getItem("token")])
 
    return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e7eef3] px-10 py-3">
@@ -35,7 +42,7 @@ const Header = ({ onLoginClick }) => {
                 Contacto
               </a>
             </div>
-            <div className="flex gap-2">
+            {!isAuthenticated ? <div className="flex gap-2">
               <button  onClick={() => {navigate("/login")}} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1990e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
                 <span className="truncate">Iniciar sesión</span>
               </button>
@@ -43,6 +50,10 @@ const Header = ({ onLoginClick }) => {
                 <span className="truncate" >Registrarse</span>
               </button>
             </div>
+            : <button  onClick={() => {logout()}} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1990e5] text-slate-50 text-sm font-bold leading-normal tracking-[0.015em]">
+                <span className="truncate">Cerrar sesión</span>
+              </button>
+            }
           </div>
         </header>
   );
