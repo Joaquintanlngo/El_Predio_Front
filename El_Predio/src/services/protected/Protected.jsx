@@ -7,9 +7,6 @@ const Protected = ({ roles, children }) => {
   // Esperar hasta que el rol esté determinado (previene render apresurado)
 if (isAuthenticated && userRole === null) return null;
 
-    console.log("Rol del usuario: ", userRole);
-
-
   if (!isAuthenticated) return <Navigate to="/" />;
 
   if (!roles.includes(userRole)) return <Navigate to="/" />;

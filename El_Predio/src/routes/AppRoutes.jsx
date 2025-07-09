@@ -10,6 +10,7 @@ import RegisterPage from "../pages/register_Page/RegisterPage";
 import Home_Page from "../pages/home_page/Home_Page";
 import Field_Finder_Page from "../pages/Field_Finder_Page/Field_Finder_Page";
 import ConfirmReservation from "../components/confirmReservation/ConfirmReservation";
+import MyProfile from "../pages/myProfile/MyProfile";
 
 export default function AppRoutes () {
     return (
@@ -29,6 +30,11 @@ export default function AppRoutes () {
                 <Route index element={<Home_Page/>} />
                 <Route path="/field" element={<Field_Finder_Page/>} />
                 <Route path="/confirm" element={<ConfirmReservation/>} />
+                <Route path="/myprofile" element={
+                    <Protected roles={["SysAdmin", "Client"]}>
+                        <MyProfile/>
+                    </Protected>
+                    } />
             </Route>
 
         </Routes>

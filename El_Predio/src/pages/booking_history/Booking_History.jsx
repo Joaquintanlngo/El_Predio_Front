@@ -24,7 +24,7 @@ const Booking_History = () => {
             <div className={styles.container_filter}>
                 <div className={styles.container_select}>
                 <label htmlFor="">Filtrar reserva por:</label>
-                    <select name="" id="" onChange={HandleChange} className={styles.select}>
+                    <select name="" id="" onChange={HandleChange} className="appearance-none w-[48%] bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500">
                         <option value="all">Todo</option>
                         <option value="court">Cancha</option>
                         <option value="today">Dia de hoy</option>
@@ -34,7 +34,7 @@ const Booking_History = () => {
                 {filter == "court" && 
                 <div>
                     <label htmlFor="">Nombre de cancha: </label>
-                    <select type="text" placeholder="Nombre de cancha" className={styles.input} onChange={(e) => {setValue(e.target.value)}}>
+                    <select type="text" placeholder="Nombre de cancha" className="appearance-none w-[35%] bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500" onChange={(e) => {setValue(e.target.value)}}>
                         <option value="" disabled selected>--</option>
                         <option value="5A">5A</option>
                         <option value="5B">5B</option>
@@ -49,7 +49,7 @@ const Booking_History = () => {
                 
                 {filter == "day" && <div>
                     <label htmlFor="">Seleccione un dia: </label>
-                    <input type="date" className={styles.inputDate} onChange={(e) => {setValue(e.target.value)}} />
+                    <input type="date" className="appearance-none w-[50%] bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:border-blue-500" onChange={(e) => {setValue(e.target.value)}} />
                     </div>
                 }
 
