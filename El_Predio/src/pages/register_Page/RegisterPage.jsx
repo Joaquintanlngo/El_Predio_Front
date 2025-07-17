@@ -53,8 +53,8 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="px-40 flex flex-1 justify-center py-2">
-      <div className="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5 max-w-[960px] flex-1">
+    <div className="px-40 flex flex-1 justify-center items-start py-5 min-h-screen">
+      <div className="layout-content-container flex flex-col w-full max-w-[512px] py-5">
         <h2 className="text-[#0e151b] tracking-light text-[28px] font-bold leading-tight px-4 text-center pb-3 pt-5">
           Crea tu cuenta
         </h2>

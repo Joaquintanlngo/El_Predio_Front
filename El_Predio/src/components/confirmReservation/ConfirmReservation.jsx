@@ -34,7 +34,7 @@ const ConfirmReservation = () => {
     // setCountdownStartTime(now);
     // setShowCountdown(true);
     try {
-      const response = await axios.post("https://7ad205a1531d.ngrok-free.app/api/MercadoPago/CreatePayment", {
+      const response = await axios.post("https://59467b292a55.ngrok-free.app/api/MercadoPago/CreatePayment", {
         title: field.name,
         price: 1,
         successUrl: "https://www.youtube.com/",

@@ -12,12 +12,13 @@ import Field_Finder_Page from "../pages/Field_Finder_Page/Field_Finder_Page";
 import ConfirmReservation from "../components/confirmReservation/ConfirmReservation";
 import MyProfile from "../pages/myProfile/MyProfile";
 import ReservationSummary from "../components/reservationSummary/ReservationSummary";
+import MyReservationsPage from "../pages/my_Reservation_Page/MyReservationPage";
 
-export default function AppRoutes () {
+export default function AppRoutes() {
     return (
-        
+
         <Routes>
-            
+
             <Route path="/" element={<Layout />}>
                 {/* <Route path="booking" element={<Booking />} /> */}
                 <Route path="/reserv" element={
@@ -26,20 +27,26 @@ export default function AppRoutes () {
                     </Protected>
                 } />
                 {/* <Route path="/pay" element={<ReservationConfirm/>} /> */}
-                <Route path="/login" element={<LoginPage/>} />
-                <Route path="/register" element={<RegisterPage/>} />
-                <Route index element={<Home_Page/>} />
-                <Route path="/field" element={<Field_Finder_Page/>} />
-                <Route path="/confirm" element={<ConfirmReservation/>} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route index element={<Home_Page />} />
+                <Route path="/field" element={<Field_Finder_Page />} />
+                <Route path="/confirm" element={<ConfirmReservation />} />
+                <Route path="/myReservation" element={
+                    <Protected roles={["SysAdmin", "Client"]}>
+                        <MyReservationsPage />
+                    </Protected>
+                } />
                 <Route path="/myprofile" element={
                     <Protected roles={["SysAdmin", "Client"]}>
-                        <MyProfile/>
+                        <MyProfile />
                     </Protected>
-                    } />
+                } />
+
             </Route>
 
-            <Route path="/reservation" element={<ReservationSummary/>} />
-        
+            <Route path="/reservation" element={<ReservationSummary />} />
+
         </Routes>
 
     )

@@ -63,7 +63,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                     ? <nav className="flex flex-col justify-between h-full p-4 pb-24">
                         <div className="flex flex-col gap-3">
                             <a href="#" className="hover:bg-[#1e2a33] px-3 py-2 rounded-lg" onClick={() => { handleNavigate("myprofile") }}>Mi perfil</a>
-                            <a href="#" className="hover:bg-[#1e2a33] px-3 py-2 rounded-lg">Mis Reservas</a>
+                            <a href="#" className="hover:bg-[#1e2a33] px-3 py-2 rounded-lg" onClick={() => { handleNavigate("myReservation") }}>Mis Reservas</a>
                             <a href="#" className="hover:bg-[#1e2a33] px-3 py-2 rounded-lg" onClick={() => { handleNavigate("field") }}>Reservar</a>
                             <a href="#" className="hover:bg-[#1e2a33] px-3 py-2 rounded-lg">Soporte</a>
                         </div>
