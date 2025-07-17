@@ -6,6 +6,7 @@ import PhoneInput from 'react-phone-input-2';
 import AireLibre from '../../utils/images/aireLibre.jpeg'
 import axios from "axios";
 import { useAuth } from '../../services/authcontext/AuthContext';
+// import PaymentCountdown from '../countdownTimer/CountdownTimer';
 
 const ConfirmReservation = () => {
   const navigate = useNavigate()
@@ -20,46 +21,93 @@ const ConfirmReservation = () => {
   const [error, setError] = useState("")
   const [user, setUser] = useState("")
 
+  // const [showCountdown, setShowCountdown] = useState(false);
+  // const [countdownStartTime, setCountdownStartTime] = useState(null);
+
+  // const preferenceCreationTime = new Date(); // ahora
+  // const expirationTime = new Date(preferenceCreationTime.getTime() + 5 * 60000); // +5 minutos
+
   const handleSubmit = async () => {
+    setLoading(true);
+    // const now = new Date();
+    // localStorage.setItem("paymentStartTime", now.toISOString());
+    // setCountdownStartTime(now);
+    // setShowCountdown(true);
     try {
-      const response = await axios.post("https://localhost:7047/api/Reservation/Create", {
+      const response = await axios.post("https://7ad205a1531d.ngrok-free.app/api/MercadoPago/CreatePayment", {
+        title: field.name,
+        price: 1,
+        successUrl: "https://www.youtube.com/",
         date: day,
         time: hour,
-        clientId: 4,
-        courtId: field.id
+        clientId: 2,
+        courtId: field.id,
       });
+      console.log("hola");
+      const data = await response.data;
+      console.log("hola 2");
+      
+      navigate("/reservation",{ state: {
+                                      field,
+                                      hour: hour,
+                                      hourPlusOne: sumarUnaHora(hour),
+                                      nameDate: nameDate,
+                                      day: date.toLocaleDateString('es-AR'),
+                                      url: data.url
+                                  } })
 
-      if (response) {
-        alert("Reserva creada con exito!")
-        navigate("/")
-      }
     } catch (err) {
-      console.error(err);
-      setError("Email o contraseña incorrectos.");
+      console.error("💥 Error completo:", err.response.data.message);
+
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message); // <-- este es el mensaje del backend
+      } else {
+        setError("Ocurrió un error inesperado");
+      }
+    } finally {
+      setLoading(false);
     }
 
   };
 
+//   useEffect(() => {
+//   const storedTime = localStorage.getItem("paymentStartTime");
 
-const fetchUser = async () => {
-        try {
-            const response = await axios.get("https://localhost:7047/api/Auth/GetUserById", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            });
-            setUser(response.data);
+//   if (storedTime) {
+//     const start = new Date(storedTime);
+//     const expiration = new Date(start.getTime() + 5 * 60 * 1000);
+//     const now = new Date();
 
-        } catch (err) {
-            setError("Error al obtener el usuario");
-            console.error(err);
-        }
-    };
+//     if (now < expiration) {
+//       setCountdownStartTime(start);
+//       setShowCountdown(true);
+//     } else {
+//       localStorage.removeItem("paymentStartTime"); // ⛔ ya expiró
+//       navigate("/"); // 👈 redirigí directamente
+//     }
+//   }
+// }, [navigate]);
 
-    useEffect(() => {
-        fetchUser();
-    }, []);
+
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get("https://localhost:7047/api/Auth/GetUserById", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setUser(response.data);
+
+    } catch (err) {
+      setError("Error al obtener el usuario");
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
 
   // const handleSubmit = async () => {
@@ -72,7 +120,7 @@ const fetchUser = async () => {
 
   //     try {
   //         // 1. Llamada a CreatePaymentIntent
-  //         const response = await fetch('https://1351-190-192-58-120.ngrok-free.app/api/MpSdk/CreatePaymentIntent', {
+  //         const response = await fetch('https://717123410de7.ngrok-free.app/api/MercadoPago/CreatePayment', {
   //             method: 'POST',
   //             headers: {
   //                 'Content-Type': 'application/json',
@@ -185,19 +233,19 @@ const fetchUser = async () => {
               <input
                 placeholder="Nombre:*"
                 className="cursor-not-allowed form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-gray-500 focus:outline-0 focus:ring-0 border-none bg-[#e7eef3] focus:border-none h-14 placeholder:text-[#4e7997] p-4 text-base font-normal leading-normal"
-                value={user.fullName} 
+                value={user.fullName}
                 disabled
               />
             </div>
-            : <div className="form-row">
-              <input
-                placeholder="Nombre:*"
-                className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0e151b] focus:outline-0 focus:ring-0 border-none bg-[#e7eef3] focus:border-none h-14 placeholder:text-[#4e7997] p-4 text-base font-normal leading-normal"
-                defaultValue=""
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-          }
+              : <div className="form-row">
+                <input
+                  placeholder="Nombre:*"
+                  className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-[#0e151b] focus:outline-0 focus:ring-0 border-none bg-[#e7eef3] focus:border-none h-14 placeholder:text-[#4e7997] p-4 text-base font-normal leading-normal"
+                  defaultValue=""
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            }
             <div className="form-row">
 
               {token ? <PhoneInput
@@ -212,17 +260,17 @@ const fetchUser = async () => {
                 disabled
               />
                 : <PhoneInput
-                country={'ar'}
-                value={user.phone}
-                onChange={setPhone}
-                preferredCountries={['ar', 'cl', 'co', 'mx', 'pe']}
-                enableSearch
-                dropdownStyle={{ zIndex: 9999 }}
-                containerClass="!w-full"
-                inputClass="!w-full !rounded-xl !bg-[#e7eef3] !h-14 !text-base !font-normal !leading-normal !text-[#0e151b] !placeholder-[#4e7997] !p-4 !pl-14 !border-none focus:!outline-0 focus:!ring-0"
-                buttonClass="!bg-[#e7eef3] !border-none !rounded-l-xl !h-14"
-              />
-            }
+                  country={'ar'}
+                  value={user.phone}
+                  onChange={setPhone}
+                  preferredCountries={['ar', 'cl', 'co', 'mx', 'pe']}
+                  enableSearch
+                  dropdownStyle={{ zIndex: 9999 }}
+                  containerClass="!w-full"
+                  inputClass="!w-full !rounded-xl !bg-[#e7eef3] !h-14 !text-base !font-normal !leading-normal !text-[#0e151b] !placeholder-[#4e7997] !p-4 !pl-14 !border-none focus:!outline-0 focus:!ring-0"
+                  buttonClass="!bg-[#e7eef3] !border-none !rounded-l-xl !h-14"
+                />
+              }
             </div>
             {token ? <div className="form-row">
               <input
@@ -256,6 +304,17 @@ const fetchUser = async () => {
           >
             {loading ? 'Procesando...' : 'Continuar'}
           </button>
+          {/* {showCountdown && countdownStartTime && (
+            <PaymentCountdown
+              expirationTime={new Date(countdownStartTime.getTime() + 5 * 60 * 1000)}
+              onExpire={() => {
+                localStorage.removeItem("paymentStartTime"); // 🧽 limpiar
+                alert("⏳ El tiempo para pagar ha expirado.");
+                navigate("/")
+              }}
+            />
+          )} */}
+          {error ?? <p>{error}</p>}
         </div>
       </div>
     </div>

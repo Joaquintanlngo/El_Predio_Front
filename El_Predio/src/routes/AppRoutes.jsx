@@ -11,6 +11,7 @@ import Home_Page from "../pages/home_page/Home_Page";
 import Field_Finder_Page from "../pages/Field_Finder_Page/Field_Finder_Page";
 import ConfirmReservation from "../components/confirmReservation/ConfirmReservation";
 import MyProfile from "../pages/myProfile/MyProfile";
+import ReservationSummary from "../components/reservationSummary/ReservationSummary";
 
 export default function AppRoutes () {
     return (
@@ -37,6 +38,8 @@ export default function AppRoutes () {
                     } />
             </Route>
 
+            <Route path="/reservation" element={<ReservationSummary/>} />
+        
         </Routes>
 
     )
